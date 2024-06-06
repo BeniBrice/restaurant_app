@@ -1,0 +1,114 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+<div class="text-center">
+  <div class="col-md12">
+    <ul class="list-group" id="item-list">
+      <h3 class="text-center">Voici votre panier d'achat</h3>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" id="items" name="items">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Nom & Prénom</label>
+          <input type="text" id="nom" name="nom" class="form-control" id="inputEmail4" required/>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Email</label>
+          <input type="email" id="email" name="email" class="form-control" id="inputPassword4" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputAddress">Adresse</label>
+        <input type="text" name="address" id="address" class="form-control" id="inputAddress" placeholder="Tapez votre adresse" required/>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputCity">Ville</label>
+          <input type="text" id="ville" name="ville" class="form-control" id="inputCity" required/>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="inputState">Pays</label>
+          <select id="pays" name="pays" class="form-control">
+            <option selected>Burundi</option>
+            <option>Côte d'Ivoire</option>
+            <option>Rwanda</option>
+            <option>France</option>
+            <option>RDC</option>
+            <option>Tanzanie</option>
+          </select>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="inputZip">Téléphone</label>
+          <input name="telephone" id="telephone" type="text" class="form-control" required/>
+        </div>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputZip">Somme totale à payer</label>
+        <input name="total" id="total" type="readonly" class="bg-dark text-warning form-control" >
+      </div>
+      <button type="submit" class="btn btn-primary">Commander</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+  // Récupération des données du panier depuis le localStorage
+  let panier = {};
+  if (localStorage.getItem('panier') !== null) {
+    panier = JSON.parse(localStorage.getItem('panier'));
+  }
+
+  // Transformation des données dans un format plus simple
+  let panierSimple = [];
+  let total = 0;
+  let nombre = 0;
+  for (let key in panier) {
+    let item = panier[key];
+    let nom = item[1];
+    let quantite = item[0];
+    let prix = item[2];
+    nombre += quantite;
+    total += prix;
+    panierSimple.push({
+      nom: nom,
+      quantite: quantite,
+      prix: prix
+    });
+
+    let itemString = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                      ${nom}
+                      <span class="badge badge-primary badge-pill"> QTE:${quantite}</span>
+                      <span class="badge badge-danger badge-pill">${prix} FBU</span>
+                      <button class="btn btn-link delete-button text-danger" data-item="${key}"><i class="fas fa-trash"></i></button>
+                    </li>`;
+    $('#item-list').append(itemString);
+  }
+
+  let itemNombre = `
+    <li class="list-group-item d-flex flex-column align-items-center">
+      <h5 class="alert alert-primary mb-3 text-light" style="background-color: #008000;">PRIX ET QUANTITÉ TOTALE</h5>
+      <span class="badge badge-primary badge-pill mb-2 font-weight-bold" style="font-size: 18px;">Quantité totale: ${nombre}</span>
+      <span class="badge badge-danger badge-pill font-weight-bold" style="font-size: 18px;">Total: ${total} FBU</span>
+    </li>`;
+  $('#item-list').append(itemNombre);
+  $('#total').val(total + " FBU");
+  $('#items').val(JSON.stringify(panierSimple));
+
+  // Ajouter un gestionnaire d'événements pour les boutons de suppression
+  $(document).on('click', '.delete-button', function() {
+    var item = $(this).data('item');
+    delete panier[item];
+    $(this).closest('li').remove();
+    localStorage.setItem('panier', JSON.stringify(panier));
+  });
+</script>
+{% endblock %}
+ORIGINAL2

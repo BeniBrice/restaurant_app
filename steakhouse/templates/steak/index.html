@@ -1,0 +1,42 @@
+{% extends "steak/base.html" %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <form class="card card-sm">
+               <div class="card-body row no-gutters align-items-center">
+                 <div class="col">
+                    <input type="search" placeholder="recherchez un plat" name="item-name" class="form-control form-control-borderless"></input>
+                 </div>
+                  <div class="col-auto">
+                    <button type="submit" class="btn btn-success">recherche</button>
+                  </div>
+                  
+               </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="row">
+        {% for plat in plats %}
+        <div class="col-md-3" >
+            <div  class="card bg-primary">
+                <img src="{{plat.image}}" alt="" class="card-img-top ">
+                <div class="card-body">
+                    <div class="card-title"><strong>{{plat.nom}}</strong></div>
+                    <div style="color: black;" ><strong>{{plat.prix}} FBU</strong></div>
+                 <a href="{{plat.id}}"><button class="btn btn bg-danger text-light">voir plus</button></a>
+                    <button id="{{plat.id}}" class="btn ted btn-success">ajouter</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+   
+
+{% endblock %}
+
+
+
