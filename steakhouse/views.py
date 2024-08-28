@@ -2,7 +2,11 @@ from django.shortcuts import redirect, render
 from .models import Produit,Commande
 from  django.core.paginator import Paginator
 
-def index (request):
+
+
+def index(request):
+    return render(request, 'shop/accueil.html')
+def  menu(request):
     produit_object=Produit.objects.all() #je selectionne tous les produits de la base de donnee #
     item_name = request.GET.get('item-name')
     if item_name !='' and item_name is not None:
@@ -23,6 +27,7 @@ def accueil_view(request):
 
     # Renvoyer la réponse
     return render(request, 'index.html')
+
 def checkout(request):
      if request.method=="POST":
           items=request.POST.get('items')

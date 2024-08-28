@@ -23,16 +23,22 @@
     <div class="row">
         {% for produit in produit_object %}
         <div class="col-md-3" >
-            <div  class="card bg-warning">
-                <img src="{{produit.image}}" alt="" class="card-img-top ">
+            <div class="card-shadow-lg  my-3 ">
+                <img src="{{produit.image.url}}" alt="image" class="card-img-top" style="height: 300px; object-fit: cover; ">
                 <div class="card-body">
                     <div id="aa{{produit.id}}" class="card-title">{{ produit.title}}</strong></div>
                     <div id="prix{{produit.id}}" style="color: black">{{ produit.prix}}<div>FBU</div></div>
-                 <a href="{{produit.id}}"   ><button class="btn btn bg-danger text-light">voir plus</button></a>
+                 
                     <button id="{{produit.id}}" class="btn ted btn-success">ajouter</button>
                 </div>
-            </div>
+            </div> 
         </div>
+        <style>
+            .card-shadow-lg{
+          box-shadow: 0 0.7rem 1rem rgba(0, 0, 0, 0.5);
+         
+        }
+        </style>
         {% endfor %}
     </div>
     
@@ -42,7 +48,7 @@
                 
             {% if produit_object.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ produit_object.previous_page_number }}"><strong>Precedent</strong></a>
+                    <a class="page-link" href="?page={{ produit_object.previous_page_number }}"><strong> Precedent</strong></a>
                 </li>
             {% endif %}
                 <li class="page-item-active">
@@ -51,7 +57,7 @@
                 
             {% if produit_object.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ produit_object.next_page_number }}"><strong>Suivant</strong></a>
+                    <a class="page-link" href="?page={{ produit_object.next_page_number }}"><strong>Suivant >></strong></a>
                 </li>
             {% endif %}
             </ul>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator 
 
 class Category(models.Model):
     nom=models.CharField(max_length=200)
@@ -17,7 +18,7 @@ class Produit(models.Model):
     prix=models.FloatField()
     description=models.TextField()
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
-    image=models.CharField(max_length=400)
+    image=models.ImageField(default='default.png',upload_to='images',validators=[FileExtensionValidator(['png','jpg','jpeg','webp'])])
     date_ajout=models.DateTimeField(auto_now=True)
 
 

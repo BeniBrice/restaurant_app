@@ -1,51 +1,59 @@
-{%extends "shop/base.html"%}
-
+{% extends "shop/base.html" %}
 
 {% block content %}
-{% if commandes %}
-  {% for commande in commandes %}
-    <table>
+  {% if commandes %}
+    {% for commande in commandes %}
+      <table>
         <a href="#" class="btn btn-primary">Télécharger la facture</a>
-      <tr>
-        <td>Produit :</td>
-        <td>{{ commande.item }}</td>
-      </tr>
-      <tr>
-        <td>Nom :</td>
-        <td>{{ commande.nom }}</td>
-      </tr>
-      <tr>
-        <td>Email :</td>
-        <td>{{ commande.email }}</td>
-      </tr>
-      <tr>
-        <td>Adresse :</td>
-        <td>{{ commande.adresse }}</td>
-      </tr>
-      <tr>
-        <td>Ville :</td>
-        <td>{{ commande.ville }}</td>
-      </tr>
-      <tr>
-        <td>Pays :</td>
-        <td>{{ commande.pays }}</td>
-      </tr>
-      <tr>
-        <td>Téléphone :</td>
-        <td>{{ commande.telephone }}</td>
-      </tr>
-      <tr>
-        <td>Total :</td>
-        <td>{{ commande.total }}</td>
-      </tr>
-      <tr>
-        <td>Date de commande :</td>
-        <td>{{ commande.date_commande }}</td>
-      </tr>
-    </table>
-  {% endfor %}
-{% else %}
-  <p>Aucune commande à afficher.</p>
-{% endif %}
+        <tr>
+          <td>Produit :</td>
+          <td>{{ commande.item }}</td>
+        </tr>
+        <tr>
+          <td>Nom :</td>
+          <td>{{ commande.nom }}</td>
+        </tr>
+        <tr>
+          <td>Email :</td>
+          <td>{{ commande.email }}</td>
+        </tr>
+        <tr>
+          <td>Adresse :</td>
+          <td>{{ commande.adresse }}</td>
+        </tr>
+        <tr>
+          <td>Ville :</td>
+          <td>{{ commande.ville }}</td>
+        </tr>
+        <tr>
+          <td>Pays :</td>
+          <td>{{ commande.pays }}</td>
+        </tr>
+        <tr>
+          <td>Téléphone :</td>
+          <td>{{ commande.telephone }}</td>
+        </tr>
+        <tr>
+          <td>Total :</td>
+          <td>{{ commande.total }}</td>
+        </tr>
+        <tr>
+          <td>Date de commande :</td>
+          <td>{{ commande.date_commande }}</td>
+        </tr>
+      </table>
+    {% endfor %}
+  {% else %}
+    <p>Aucune commande à afficher.</p>
+  {% endif %}
 
+  <button id="retour-btn" class="btn btn-success">Retour</button>
+
+  <script>
+    document.getElementById('retour-btn').addEventListener('click', function() {
+  localStorage.clear(); // Efface le localStorage
+  window.location.href = '{% url "menu" %}'; // Redirige vers index.html
+});
+   
+  </script>
 {% endblock %}
