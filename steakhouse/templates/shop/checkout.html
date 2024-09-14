@@ -10,7 +10,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <form method="POST">
+    <form method="POST" id="myForm">
       {% csrf_token %}
       <input type="hidden" id="items" name="items">
       <div class="form-row">
@@ -52,15 +52,36 @@
         <label for="inputZip">Somme totale à payer</label>
         <input name="total" id="total" type="text" readonly class="bg-dark text-warning form-control">
       </div>
-      <button type="submit" class="btn btn-primary">Commander</button>
+
+      <div id="paypal-button-container"></div>
+
+  <button type="submit" class="btn btn-primary">Commander</button>
     </form>
+    <a id="paypalRedirect" class="d-none" href="{% url 'paypal' %}"></a>
   </div>
 </div>
 {% endblock %}
 
 {% block js %}
+
 <script type="text/javascript">
-  let panier = {};
+
+  document.getElementById('myForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    
+    // Perform form validation or other checks
+    // Example: Check if the form is valid
+    if (this.checkValidity()) {
+      // If form is valid, redirect to PayPal
+      window.location.href = document.getElementById('paypalRedirect').href;
+    } else {
+
+      alert('Please fill out the form correctly.');
+    }
+  });
+
+
+ let panier = {};
   let panierSimple = []; // Initialiser le panierSimple
 
   if (localStorage.getItem('panier') !== null) {
@@ -165,5 +186,5 @@
     renderPanier();
     updateTotal();
   });
-</script>
+  </script>
 {% endblock %}

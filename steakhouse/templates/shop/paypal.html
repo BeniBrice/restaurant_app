@@ -1,0 +1,64 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-6 mx-auto pt-3">
+        <div id="paypal-button-container"></div>
+      </div>
+    </div>
+  </div>
+
+    {% endblock %}
+    {% block js %}
+    <script src="https://www.paypal.com/sdk/js?client-id=ATO5ttix2vN63lT8PLQeYl7PLcrh3gxouPrhf2EonDZKZAmuyy_uVhh16ybd3Od-k4LGUvLXRtHlVgwL&currency=USD"></script>
+  
+<script>
+    paypal.Buttons({
+        // Create the order
+        createOrder: function(data, actions) {
+            ///you can add some logic for example verify
+            ///if the given amount and the user amount is equal or less the 
+            /// the given amount 
+            //add some logic here
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: '100.00'  // Total price for the payment
+              }
+            }]
+          });
+        },
+
+        
+        // Handle successful payment authorization
+        onApprove: function(data, actions) {
+          // Capture the payment
+          return actions.order.capture().then(function(details) {
+            // Check if the payment was successful
+            const transaction = details.purchase_units[0].payments.captures[0];
+    
+            if (transaction.status === 'COMPLETED') {
+              // Payment successful
+              alert('Payment successful! Transaction ID: ' + transaction.id);
+              console.log('Transaction details:', details);
+
+              //here you can navigate user to a confirmatin page
+              //you can create another templete for confirmation
+
+            } else {
+              // Payment not successful
+              //hre you can navigate a user to an error page 
+              alert('Payment failed or not completed.');
+            }
+          });
+        },
+    
+        // Handle payment errors
+        onError: function(err) {
+            //show alert dialog while there is some errors
+          console.error('Payment Error:', err);
+          alert('There was an error processing the payment.');
+        }
+      }).render('#paypal-button-container');
+  </script>
+  {% endblock %}

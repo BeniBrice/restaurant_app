@@ -27,6 +27,9 @@ def accueil_view(request):
 
     # Renvoyer la réponse
     return render(request, 'index.html')
+def paypay_view(request):
+     return render(request, 'shop/paypal.html')
+
 
 def checkout(request):
      if request.method=="POST":
